@@ -628,11 +628,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   126,   126,   163,   169,   170,   181,   189,   197,   205,
-     212,   219,   229,   233,   244,   249,   258,   265,   266,   270,
-     274,   282,   288,   294,   313,   319,   325,   331,   343,   355,
-     361,   367,   372,   378,   385,   394,   400,   430,   437,   445,
-     449,   462,   463,   472,   482,   483,   493
+       0,   126,   126,   161,   167,   168,   177,   183,   189,   195,
+     201,   207,   216,   219,   228,   233,   240,   246,   247,   250,
+     253,   260,   264,   268,   283,   287,   291,   295,   305,   315,
+     319,   323,   328,   332,   338,   347,   353,   382,   388,   394,
+     397,   407,   408,   414,   423,   424,   432
 };
 #endif
 
@@ -1312,234 +1312,208 @@ yyreduce:
             extra_funcs,
             (yyvsp[-1].str) ? (yyvsp[-1].str) : "", (yyvsp[0].str) ? (yyvsp[0].str) : "");
 
-        if ((yyvsp[-1].str)) free((yyvsp[-1].str));
-        if ((yyvsp[0].str)) free((yyvsp[0].str));
         (yyval.str) = final_code;
     }
-#line 1320 "parser.tab.c"
+#line 1318 "parser.tab.c"
     break;
 
   case 3: /* var_block: VAR decl_list END_VAR  */
-#line 163 "parser.y"
+#line 161 "parser.y"
                           {
         (yyval.str) = (yyvsp[-1].str);
     }
-#line 1328 "parser.tab.c"
+#line 1326 "parser.tab.c"
     break;
 
   case 4: /* decl_list: %empty  */
-#line 169 "parser.y"
+#line 167 "parser.y"
                   { (yyval.str) = strdup(""); }
-#line 1334 "parser.tab.c"
+#line 1332 "parser.tab.c"
     break;
 
   case 5: /* decl_list: decl_list decl  */
-#line 170 "parser.y"
+#line 168 "parser.y"
                      {
         size_t len = strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 4;
         char* res = malloc(len);
         snprintf(res, len, "%s\t%s\n", (yyvsp[-1].str), (yyvsp[0].str));
-        free((yyvsp[-1].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1347 "parser.tab.c"
+#line 1343 "parser.tab.c"
     break;
 
   case 6: /* decl: ID COLON STRING_TYPE ASSIGN expr_list SEMICOLON  */
-#line 181 "parser.y"
+#line 177 "parser.y"
                                                       {
         size_t len = strlen((yyvsp[-5].str)) + strlen((yyvsp[-1].str)) + 20;
         char* res = malloc(len);
         snprintf(res, len, "char* %s = %s;", (yyvsp[-5].str), escape_string((yyvsp[-1].str)));
-        free((yyvsp[-5].str));
-        free((yyvsp[-1].str));
         (yyval.str) = res;
     }
-#line 1360 "parser.tab.c"
+#line 1354 "parser.tab.c"
     break;
 
   case 7: /* decl: ID COLON CHAR_TYPE ASSIGN expr_list SEMICOLON  */
-#line 189 "parser.y"
+#line 183 "parser.y"
                                                     {
         size_t len = strlen((yyvsp[-5].str)) + strlen((yyvsp[-1].str)) + 20;
         char* res = malloc(len);
         snprintf(res, len, "char %s = %s;", (yyvsp[-5].str), (yyvsp[-1].str));
-        free((yyvsp[-5].str));
-        free((yyvsp[-1].str));
         (yyval.str) = res;
     }
-#line 1373 "parser.tab.c"
+#line 1365 "parser.tab.c"
     break;
 
   case 8: /* decl: ID COLON INT_TYPE ASSIGN expr_list SEMICOLON  */
-#line 197 "parser.y"
+#line 189 "parser.y"
                                                    {
         size_t len = strlen((yyvsp[-5].str)) + strlen((yyvsp[-1].str)) + 20;
         char* res = malloc(len);
         snprintf(res, len, "int %s = %s;", (yyvsp[-5].str), (yyvsp[-1].str));
-        free((yyvsp[-5].str));
-        free((yyvsp[-1].str));
         (yyval.str) = res;
     }
-#line 1386 "parser.tab.c"
+#line 1376 "parser.tab.c"
     break;
 
   case 9: /* decl: ID COLON STRING_TYPE SEMICOLON  */
-#line 205 "parser.y"
+#line 195 "parser.y"
                                      {
         size_t len = strlen((yyvsp[-3].str)) + 20;
         char* res = malloc(len);
         snprintf(res, len, "char* %s;", (yyvsp[-3].str));
-        free((yyvsp[-3].str));
+        (yyval.str) = res;
+    }
+#line 1387 "parser.tab.c"
+    break;
+
+  case 10: /* decl: ID COLON CHAR_TYPE SEMICOLON  */
+#line 201 "parser.y"
+                                   {
+        size_t len = strlen((yyvsp[-3].str)) + 20;
+        char* res = malloc(len);
+        snprintf(res, len, "char %s;", (yyvsp[-3].str));
         (yyval.str) = res;
     }
 #line 1398 "parser.tab.c"
     break;
 
-  case 10: /* decl: ID COLON CHAR_TYPE SEMICOLON  */
-#line 212 "parser.y"
-                                   {
-        size_t len = strlen((yyvsp[-3].str)) + 20;
-        char* res = malloc(len);
-        snprintf(res, len, "char %s;", (yyvsp[-3].str));
-        free((yyvsp[-3].str));
-        (yyval.str) = res;
-    }
-#line 1410 "parser.tab.c"
-    break;
-
   case 11: /* decl: ID COLON INT_TYPE SEMICOLON  */
-#line 219 "parser.y"
+#line 207 "parser.y"
                                   {
         size_t len = strlen((yyvsp[-3].str)) + 20;
         char* res = malloc(len);
         snprintf(res, len, "int %s;", (yyvsp[-3].str));
-        free((yyvsp[-3].str));
         (yyval.str) = res;
     }
-#line 1422 "parser.tab.c"
+#line 1409 "parser.tab.c"
     break;
 
   case 12: /* expr_list: expr  */
-#line 229 "parser.y"
+#line 216 "parser.y"
            {
         (yyval.str) = strdup((yyvsp[0].str));  // копия строки, чтобы не зависеть от $1
-        free((yyvsp[0].str));
     }
-#line 1431 "parser.tab.c"
+#line 1417 "parser.tab.c"
     break;
 
   case 13: /* expr_list: expr_list COMMA expr  */
-#line 233 "parser.y"
+#line 219 "parser.y"
                            {
         size_t len = strlen((yyvsp[-2].str)) + strlen((yyvsp[0].str)) + 2;
         char* res = malloc(len);
         snprintf(res, len, "%s,%s", (yyvsp[-2].str), (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1444 "parser.tab.c"
+#line 1428 "parser.tab.c"
     break;
 
   case 14: /* expr: INT_LITERAL  */
-#line 244 "parser.y"
+#line 228 "parser.y"
                   {
           char buf[32];
           snprintf(buf, sizeof(buf), "%d", (yyvsp[0].ival));
           (yyval.str) = strdup(buf);
       }
-#line 1454 "parser.tab.c"
+#line 1438 "parser.tab.c"
     break;
 
   case 15: /* expr: STRING_LITERAL  */
-#line 249 "parser.y"
+#line 233 "parser.y"
                      {
         if (strlen((yyvsp[0].str)) >= 1){
             (yyval.str) = strdup(escape_string((yyvsp[0].str)));
         }else{
             (yyval.str) = strdup((yyvsp[0].str));
         }
-        
-        free((yyvsp[0].str));
     }
-#line 1468 "parser.tab.c"
+#line 1450 "parser.tab.c"
     break;
 
   case 16: /* expr: NOT expr  */
-#line 258 "parser.y"
+#line 240 "parser.y"
                          {
         size_t len = strlen((yyvsp[0].str)) + 4;
         char* res = malloc(len);
         snprintf(res, len, "!(%s)", (yyvsp[0].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1480 "parser.tab.c"
+#line 1461 "parser.tab.c"
     break;
 
   case 17: /* expr: LPAREN expr RPAREN  */
-#line 265 "parser.y"
+#line 246 "parser.y"
                          { (yyval.str) = (yyvsp[-1].str); }
-#line 1486 "parser.tab.c"
+#line 1467 "parser.tab.c"
     break;
 
   case 18: /* expr: ID  */
-#line 266 "parser.y"
+#line 247 "parser.y"
          {
         (yyval.str) = strdup((yyvsp[0].str));
-        free((yyvsp[0].str));
     }
-#line 1495 "parser.tab.c"
+#line 1475 "parser.tab.c"
     break;
 
   case 19: /* expr: function_call  */
-#line 270 "parser.y"
+#line 250 "parser.y"
                     {
         (yyval.str) = strdup((yyvsp[0].str));
-        free((yyvsp[0].str));
     }
-#line 1504 "parser.tab.c"
+#line 1483 "parser.tab.c"
     break;
 
   case 20: /* expr: CHAR_LITERAL  */
-#line 274 "parser.y"
+#line 253 "parser.y"
                    {
         if (strlen((yyvsp[0].str)) >= 1){
             (yyval.str) = strdup(escape_string((yyvsp[0].str)));
         }else{
             (yyval.str) = strdup((yyvsp[0].str));
         }
-        free((yyvsp[0].str));
     }
-#line 1517 "parser.tab.c"
+#line 1495 "parser.tab.c"
     break;
 
   case 21: /* expr: expr AND expr  */
-#line 282 "parser.y"
+#line 260 "parser.y"
                     {
         char* res = make_binop((yyvsp[-2].str), "&&", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1528 "parser.tab.c"
+#line 1504 "parser.tab.c"
     break;
 
   case 22: /* expr: expr OR expr  */
-#line 288 "parser.y"
+#line 264 "parser.y"
                    {
         char* res = make_binop((yyvsp[-2].str), "||", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1539 "parser.tab.c"
+#line 1513 "parser.tab.c"
     break;
 
   case 23: /* expr: expr PLUS expr  */
-#line 294 "parser.y"
+#line 268 "parser.y"
                      {
         if (is_string((yyvsp[-2].str)) || is_string((yyvsp[0].str))) {
             size_t len = strlen((yyvsp[-2].str)) + strlen((yyvsp[0].str)) + 1;
@@ -1549,54 +1523,44 @@ yyreduce:
             strcat(res, (yyvsp[-2].str));
             strcat(res, (yyvsp[0].str));
             strcat(res, ")");
-            free((yyvsp[-2].str));
-            free((yyvsp[0].str));
             (yyval.str) = res;
         } else {
             char* res = make_binop((yyvsp[-2].str), "+", (yyvsp[0].str));
-            free((yyvsp[-2].str));
-            free((yyvsp[0].str));
             (yyval.str) = res;
         }
     }
-#line 1563 "parser.tab.c"
+#line 1533 "parser.tab.c"
     break;
 
   case 24: /* expr: expr MINUS expr  */
-#line 313 "parser.y"
+#line 283 "parser.y"
                       {
         char* res = make_binop((yyvsp[-2].str), "-", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1574 "parser.tab.c"
+#line 1542 "parser.tab.c"
     break;
 
   case 25: /* expr: expr TIMES expr  */
-#line 319 "parser.y"
+#line 287 "parser.y"
                       {
         char* res = make_binop((yyvsp[-2].str), "*", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1585 "parser.tab.c"
+#line 1551 "parser.tab.c"
     break;
 
   case 26: /* expr: expr DIVIDE expr  */
-#line 325 "parser.y"
+#line 291 "parser.y"
                        {
         char* res = make_binop((yyvsp[-2].str), "/", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1596 "parser.tab.c"
+#line 1560 "parser.tab.c"
     break;
 
   case 27: /* expr: expr LE expr  */
-#line 331 "parser.y"
+#line 295 "parser.y"
                    {
         char* res;
         if (is_string((yyvsp[-2].str)) || is_string((yyvsp[0].str))) {
@@ -1605,15 +1569,13 @@ yyreduce:
         }else{
             res = make_binop((yyvsp[-2].str), "<=", (yyvsp[0].str));
         }
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1613 "parser.tab.c"
+#line 1575 "parser.tab.c"
     break;
 
   case 28: /* expr: expr GE expr  */
-#line 343 "parser.y"
+#line 305 "parser.y"
                    {
         char* res;
         if (is_string((yyvsp[-2].str)) || is_string((yyvsp[0].str))) {
@@ -1622,91 +1584,82 @@ yyreduce:
         }else{
             res = make_binop((yyvsp[-2].str), ">=", (yyvsp[0].str));
         }
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1630 "parser.tab.c"
+#line 1590 "parser.tab.c"
     break;
 
   case 29: /* expr: expr LT expr  */
-#line 355 "parser.y"
+#line 315 "parser.y"
                    {
         char* res = make_binop((yyvsp[-2].str), "<", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1641 "parser.tab.c"
+#line 1599 "parser.tab.c"
     break;
 
   case 30: /* expr: expr GT expr  */
-#line 361 "parser.y"
+#line 319 "parser.y"
                    {
         char* res = make_binop((yyvsp[-2].str), ">", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1652 "parser.tab.c"
+#line 1608 "parser.tab.c"
     break;
 
   case 31: /* expr: expr EQ expr  */
-#line 367 "parser.y"
+#line 323 "parser.y"
                    {
         char* res;
         asprintf(&res, "strcmp(%s, %s) == 0", (yyvsp[-2].str), (yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1662 "parser.tab.c"
+#line 1618 "parser.tab.c"
     break;
 
   case 32: /* expr: expr NE expr  */
-#line 372 "parser.y"
+#line 328 "parser.y"
                    {
         char* res = make_binop((yyvsp[-2].str), "!=", (yyvsp[0].str));
-        free((yyvsp[-2].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1673 "parser.tab.c"
+#line 1627 "parser.tab.c"
     break;
 
   case 33: /* expr: MINUS expr  */
-#line 378 "parser.y"
+#line 332 "parser.y"
                               {
         size_t len = strlen((yyvsp[0].str)) + 4;
         char* res = malloc(len);
         snprintf(res, len, "-(%s)", (yyvsp[0].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1685 "parser.tab.c"
+#line 1638 "parser.tab.c"
     break;
 
   case 34: /* expr: expr SR expr  */
-#line 385 "parser.y"
+#line 338 "parser.y"
                    {
         char* res;
         asprintf(&res, "strcmp(%s, %s) == 0", (yyvsp[-2].str), (yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1695 "parser.tab.c"
+#line 1648 "parser.tab.c"
     break;
 
   case 35: /* function_call: FUNC_ID LPAREN RPAREN  */
-#line 394 "parser.y"
+#line 347 "parser.y"
                             {
         size_t len = strlen((yyvsp[-2].str)) + 3;
         char* res = malloc(len);
         snprintf(res, len, "%s()", (yyvsp[-2].str));
         (yyval.str) = res;
     }
-#line 1706 "parser.tab.c"
+#line 1659 "parser.tab.c"
     break;
 
   case 36: /* function_call: FUNC_ID LPAREN expr_list RPAREN  */
-#line 400 "parser.y"
+#line 353 "parser.y"
                                       {
         char* res;
         if (strcmp((yyvsp[-3].str), "CONCAT") == 0) {
@@ -1732,113 +1685,99 @@ yyreduce:
             res = malloc(len);
             snprintf(res, len, "%s(%s)", (yyvsp[-3].str), (yyvsp[-1].str));
         }
-        free((yyvsp[-1].str));
         (yyval.str) = res;
     }
-#line 1739 "parser.tab.c"
+#line 1691 "parser.tab.c"
     break;
 
   case 37: /* statement: ID ASSIGN expr SEMICOLON  */
-#line 430 "parser.y"
+#line 382 "parser.y"
                                {
         size_t len = strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 15;
         char* res = malloc(len);
         snprintf(res, len, "%s = %s;", (yyvsp[-3].str), (yyvsp[-1].str));
-        free((yyvsp[-1].str));    
         (yyval.str) = res;
     }
-#line 1751 "parser.tab.c"
+#line 1702 "parser.tab.c"
     break;
 
   case 38: /* statement: WHILE expr DO block END_WHILE SEMICOLON  */
-#line 437 "parser.y"
+#line 388 "parser.y"
                                               {
         size_t len = strlen((yyvsp[-4].str)) + strlen((yyvsp[-2].str)) + 300;
         char* res = malloc(len);
         snprintf(res, len, "while (%s) {\n%s\t}", (yyvsp[-4].str), (yyvsp[-2].str));
-        free((yyvsp[-4].str));
-        free((yyvsp[-2].str));
         (yyval.str) = res;
     }
-#line 1764 "parser.tab.c"
+#line 1713 "parser.tab.c"
     break;
 
   case 39: /* statement: function_call SEMICOLON  */
-#line 445 "parser.y"
+#line 394 "parser.y"
                               {
         (yyval.str) = strdup((yyvsp[-1].str));
-        free((yyvsp[-1].str));
     }
-#line 1773 "parser.tab.c"
+#line 1721 "parser.tab.c"
     break;
 
   case 40: /* statement: IF expr THEN block if_tail END_IF SEMICOLON  */
-#line 449 "parser.y"
+#line 397 "parser.y"
                                                  {
         size_t len = strlen((yyvsp[-5].str)) + strlen((yyvsp[-3].str)) + strlen((yyvsp[-2].str)) + 40;
         char* res = malloc(len);
         snprintf(res, len, "if (%s) {\n%s\t}%s", (yyvsp[-5].str), (yyvsp[-3].str), (yyvsp[-2].str));
-        free((yyvsp[-5].str));
-        free((yyvsp[-3].str));
-        free((yyvsp[-2].str));
         (yyval.str) = res;
     }
-#line 1787 "parser.tab.c"
+#line 1732 "parser.tab.c"
     break;
 
   case 41: /* if_tail: %empty  */
-#line 462 "parser.y"
+#line 407 "parser.y"
                   { (yyval.str) = strdup(""); }
-#line 1793 "parser.tab.c"
+#line 1738 "parser.tab.c"
     break;
 
   case 42: /* if_tail: ELSIF expr THEN block if_tail  */
-#line 463 "parser.y"
+#line 408 "parser.y"
                                     {
         size_t len = strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 25;
         char* res = malloc(len);
         snprintf(res, len, " else if (%s) {\n%s\t}%s", (yyvsp[-3].str), (yyvsp[-1].str), (yyvsp[0].str));
-        free((yyvsp[-3].str));
-        free((yyvsp[-1].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1807 "parser.tab.c"
+#line 1749 "parser.tab.c"
     break;
 
   case 43: /* if_tail: ELSE block  */
-#line 472 "parser.y"
+#line 414 "parser.y"
                 {
         size_t len = strlen((yyvsp[0].str)) + 20;
         char* res = malloc(len);
         snprintf(res, len, " else {\n%s\t}", (yyvsp[0].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1819 "parser.tab.c"
+#line 1760 "parser.tab.c"
     break;
 
   case 44: /* statement_list: %empty  */
-#line 482 "parser.y"
+#line 423 "parser.y"
                   { (yyval.str) = strdup(""); }
-#line 1825 "parser.tab.c"
+#line 1766 "parser.tab.c"
     break;
 
   case 45: /* statement_list: statement_list statement  */
-#line 483 "parser.y"
+#line 424 "parser.y"
                                {
         size_t len = strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 10;
         char* res = malloc(len);
         snprintf(res, len, "%s\t%s\n", (yyvsp[-1].str), (yyvsp[0].str));
-        free((yyvsp[-1].str));
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1838 "parser.tab.c"
+#line 1777 "parser.tab.c"
     break;
 
   case 46: /* block: statement_list  */
-#line 493 "parser.y"
+#line 432 "parser.y"
                    {
         const char* input = (yyvsp[0].str);
         size_t total_len = strlen(input) + 1024;  // запас
@@ -1859,14 +1798,13 @@ yyreduce:
 
         free(temp);
         free(tab_str);
-        free((yyvsp[0].str));
         (yyval.str) = res;
     }
-#line 1866 "parser.tab.c"
+#line 1804 "parser.tab.c"
     break;
 
 
-#line 1870 "parser.tab.c"
+#line 1808 "parser.tab.c"
 
       default: break;
     }
@@ -2059,4 +1997,4 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 518 "parser.y"
+#line 456 "parser.y"

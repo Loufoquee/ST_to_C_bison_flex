@@ -18,7 +18,7 @@ char* mid(const char* s, int start, int length) {
 }
 
 int main() {
-	char* inputString = "123 \"Hello, World!\" 456";
+	char* inputString = "123 @!#$ \"Hello, World!\" 456";
 	char* currentChar;
 	int index = 1;
 	char* token;

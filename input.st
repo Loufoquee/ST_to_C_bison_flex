@@ -1,5 +1,5 @@
 VAR
-    inputString : STRING := '123 "Hello, World!" 456';
+    inputString : STRING := '123 @!#$ "Hello, World!" 456';
     currentChar : STRING;
     index : INT := 1;
     token : STRING;

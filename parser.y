@@ -153,8 +153,6 @@ program:
             extra_funcs,
             $1 ? $1 : "", $2 ? $2 : "");
 
-        if ($1) free($1);
-        if ($2) free($2);
         $$ = final_code;
     }
 ;
@@ -171,8 +169,6 @@ decl_list:
         size_t len = strlen($1) + strlen($2) + 4;
         char* res = malloc(len);
         snprintf(res, len, "%s\t%s\n", $1, $2);
-        free($1);
-        free($2);
         $$ = res;
     }
 ;
@@ -182,45 +178,36 @@ decl:
         size_t len = strlen($1) + strlen($5) + 20;
         char* res = malloc(len);
         snprintf(res, len, "char* %s = %s;", $1, escape_string($5));
-        free($1);
-        free($5);
         $$ = res;
     }
     | ID COLON CHAR_TYPE ASSIGN expr_list SEMICOLON {
         size_t len = strlen($1) + strlen($5) + 20;
         char* res = malloc(len);
         snprintf(res, len, "char %s = %s;", $1, $5);
-        free($1);
-        free($5);
         $$ = res;
     }
     | ID COLON INT_TYPE ASSIGN expr_list SEMICOLON {
         size_t len = strlen($1) + strlen($5) + 20;
         char* res = malloc(len);
         snprintf(res, len, "int %s = %s;", $1, $5);
-        free($1);
-        free($5);
         $$ = res;
     }
     | ID COLON STRING_TYPE SEMICOLON {
         size_t len = strlen($1) + 20;
         char* res = malloc(len);
         snprintf(res, len, "char* %s;", $1);
-        free($1);
         $$ = res;
     }
     | ID COLON CHAR_TYPE SEMICOLON {
         size_t len = strlen($1) + 20;
         char* res = malloc(len);
         snprintf(res, len, "char %s;", $1);
-        free($1);
         $$ = res;
     }
     | ID COLON INT_TYPE SEMICOLON {
         size_t len = strlen($1) + 20;
         char* res = malloc(len);
         snprintf(res, len, "int %s;", $1);
-        free($1);
         $$ = res;
     }
 ;
@@ -228,14 +215,11 @@ decl:
 expr_list
     : expr {
         $$ = strdup($1);  // копия строки, чтобы не зависеть от $1
-        free($1);
     }
     | expr_list COMMA expr {
         size_t len = strlen($1) + strlen($3) + 2;
         char* res = malloc(len);
         snprintf(res, len, "%s,%s", $1, $3);
-        free($1);
-        free($3);
         $$ = res;
     }
 
@@ -252,24 +236,19 @@ expr:
         }else{
             $$ = strdup($1);
         }
-        
-        free($1);
     }
     | NOT expr %prec NOT {
         size_t len = strlen($2) + 4;
         char* res = malloc(len);
         snprintf(res, len, "!(%s)", $2);
-        free($2);
         $$ = res;
     }
     | LPAREN expr RPAREN { $$ = $2; }
     | ID {
         $$ = strdup($1);
-        free($1);
     }
     | function_call {
         $$ = strdup($1);
-        free($1);
     }
     | CHAR_LITERAL {
         if (strlen($1) >= 1){
@@ -277,18 +256,13 @@ expr:
         }else{
             $$ = strdup($1);
         }
-        free($1);
     }
     | expr AND expr {
         char* res = make_binop($1, "&&", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr OR expr {
         char* res = make_binop($1, "||", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr PLUS expr {
@@ -300,32 +274,22 @@ expr:
             strcat(res, $1);
             strcat(res, $3);
             strcat(res, ")");
-            free($1);
-            free($3);
             $$ = res;
         } else {
             char* res = make_binop($1, "+", $3);
-            free($1);
-            free($3);
             $$ = res;
         }
     }
     | expr MINUS expr {
         char* res = make_binop($1, "-", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr TIMES expr {
         char* res = make_binop($1, "*", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr DIVIDE expr {
         char* res = make_binop($1, "/", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr LE expr {
@@ -336,8 +300,6 @@ expr:
         }else{
             res = make_binop($1, "<=", $3);
         }
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr GE expr {
@@ -348,20 +310,14 @@ expr:
         }else{
             res = make_binop($1, ">=", $3);
         }
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr LT expr {
         char* res = make_binop($1, "<", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr GT expr {
         char* res = make_binop($1, ">", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | expr EQ expr {
@@ -371,15 +327,12 @@ expr:
     }
     | expr NE expr {
         char* res = make_binop($1, "!=", $3);
-        free($1);
-        free($3);
         $$ = res;
     }
     | MINUS expr %prec UMINUS {
         size_t len = strlen($2) + 4;
         char* res = malloc(len);
         snprintf(res, len, "-(%s)", $2);
-        free($2);
         $$ = res;
     }
     | expr SR expr {
@@ -422,7 +375,6 @@ function_call
             res = malloc(len);
             snprintf(res, len, "%s(%s)", $1, $3);
         }
-        free($3);
         $$ = res;
     }
 
@@ -431,28 +383,21 @@ statement:
         size_t len = strlen($1) + strlen($3) + 15;
         char* res = malloc(len);
         snprintf(res, len, "%s = %s;", $1, $3);
-        free($3);    
         $$ = res;
     }
     | WHILE expr DO block END_WHILE SEMICOLON {
         size_t len = strlen($2) + strlen($4) + 300;
         char* res = malloc(len);
         snprintf(res, len, "while (%s) {\n%s\t}", $2, $4);
-        free($2);
-        free($4);
         $$ = res;
     }
     | function_call SEMICOLON {
         $$ = strdup($1);
-        free($1);
     }
     | IF expr THEN block if_tail END_IF SEMICOLON{
         size_t len = strlen($2) + strlen($4) + strlen($5) + 40;
         char* res = malloc(len);
         snprintf(res, len, "if (%s) {\n%s\t}%s", $2, $4, $5);
-        free($2);
-        free($4);
-        free($5);
         $$ = res;
     }
 
@@ -464,16 +409,12 @@ if_tail:
         size_t len = strlen($2) + strlen($4) + strlen($5) + 25;
         char* res = malloc(len);
         snprintf(res, len, " else if (%s) {\n%s\t}%s", $2, $4, $5);
-        free($2);
-        free($4);
-        free($5);
         $$ = res;
     }
     | ELSE block{
         size_t len = strlen($2) + 20;
         char* res = malloc(len);
         snprintf(res, len, " else {\n%s\t}", $2);
-        free($2);
         $$ = res;
     }
 ;
@@ -484,8 +425,6 @@ statement_list:
         size_t len = strlen($1) + strlen($2) + 10;
         char* res = malloc(len);
         snprintf(res, len, "%s\t%s\n", $1, $2);
-        free($1);
-        free($2);
         $$ = res;
     }
 ;
@@ -510,7 +449,6 @@ block:
 
         free(temp);
         free(tab_str);
-        free($1);
         $$ = res;
     }
 ;

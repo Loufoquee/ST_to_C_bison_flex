@@ -4,13 +4,13 @@
 
 Запуск (bash):
 
-clean make\n
-make\n
-./parser < input.st > output.c\n
+  1)clean make
+  2)make
+  3)./parser < input.st > output.c
 
 или 
 
-flex lexer.l\n
-bison -d parser.y\n
-gcc parser.tab.c lex.yy.c -o pars\n
-./pars < input.st > output.c\n
+  1)flex lexer.l
+  2)bison -d parser.y
+  3)gcc parser.tab.c lex.yy.c -o pars
+  4)./pars < input.st > output.c\n

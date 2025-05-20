@@ -1,6 +1,6 @@
 Интерпретатор с языка ST(Structured Text) на язык C(Си)
 входной файл: input.st
-выходной файл: output.st
+выходной файл: output.c
 
 Запуск (bash):
 

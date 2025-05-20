@@ -1,0 +1,1678 @@
+Состояние 86 конфликты: 18 вывода/вывода
+
+
+Грамматика
+
+    0 $accept: program $end
+
+    1 program: var_block statement_list
+
+    2 var_block: VAR decl_list END_VAR
+
+    3 decl_list: ε
+    4          | decl_list decl
+
+    5 decl: ID COLON STRING_TYPE ASSIGN expr_list SEMICOLON
+    6     | ID COLON CHAR_TYPE ASSIGN expr_list SEMICOLON
+    7     | ID COLON INT_TYPE ASSIGN expr_list SEMICOLON
+    8     | ID COLON STRING_TYPE SEMICOLON
+    9     | ID COLON CHAR_TYPE SEMICOLON
+   10     | ID COLON INT_TYPE SEMICOLON
+
+   11 expr_list: expr
+   12          | expr_list COMMA expr
+
+   13 expr: INT_LITERAL
+   14     | STRING_LITERAL
+   15     | LPAREN expr RPAREN
+   16     | ID
+   17     | ID LPAREN expr_list RPAREN
+   18     | function_call
+   19     | CHAR_LITERAL
+   20     | expr AND expr
+   21     | expr OR expr
+   22     | expr PLUS expr
+   23     | expr MINUS expr
+   24     | expr TIMES expr
+   25     | expr DIVIDE expr
+   26     | expr LE expr
+   27     | expr GE expr
+   28     | expr LT expr
+   29     | expr GT expr
+   30     | expr EQ expr
+   31     | expr NE expr
+   32     | '-' expr
+   33     | '(' expr ')'
+
+   34 function_call: FUNC_ID LPAREN expr_list RPAREN
+   35              | ID LPAREN expr_list RPAREN
+
+   36 statement_list: ε
+   37               | statement_list statement
+
+   38 statement: WHILE expr DO statement_list END_WHILE SEMICOLON
+   39          | IF expr THEN statement_list if_tail SEMICOLON
+   40          | ID ASSIGN expr_list SEMICOLON
+   41          | function_call SEMICOLON
+
+   42 if_tail: END_IF
+   43        | ELSIF expr THEN statement_list if_tail
+   44        | ELSE statement_list END_IF
+
+
+Терминальные символы с правилами, в которых они появляются
+
+    $end (0) 0
+    '(' (40) 33
+    ')' (41) 33
+    '-' (45) 32
+    error (256)
+    VAR (258) 2
+    END_VAR (259) 2
+    WHILE (260) 38
+    DO (261) 38
+    END_WHILE (262) 38
+    IF (263) 39
+    THEN (264) 39 43
+    ELSIF (265) 43
+    ELSE (266) 44
+    END_IF (267) 42 44
+    AND (268) 20
+    OR (269) 21
+    ASSIGN (270) 5 6 7 40
+    SEMICOLON (271) 5 6 7 8 9 10 38 39 40 41
+    COLON (272) 5 6 7 8 9 10
+    LPAREN (273) 15 17 34 35
+    RPAREN (274) 15 17 34 35
+    COMMA (275) 12
+    LE (276) 26
+    GE (277) 27
+    EQ (278) 30
+    NE (279) 31
+    LT (280) 28
+    GT (281) 29
+    STRING_TYPE (282) 5 8
+    CHAR_TYPE (283) 6 9
+    INT_TYPE (284) 7 10
+    PLUS (285) 22
+    MINUS (286) 23
+    TIMES (287) 24
+    DIVIDE (288) 25
+    INT_LITERAL <ival> (289) 13
+    STRING_LITERAL <str> (290) 14
+    ID <str> (291) 5 6 7 8 9 10 16 17 35 40
+    FUNC_ID <str> (292) 34
+    CHAR_LITERAL <str> (293) 19
+    UMINUS (294)
+
+
+Нетерминальные символы с правилами, в которых они появляются
+
+    $accept (43)
+        on left: 0
+    program (44)
+        on left: 1
+        on right: 0
+    var_block <str> (45)
+        on left: 2
+        on right: 1
+    decl_list <str> (46)
+        on left: 3 4
+        on right: 2 4
+    decl <str> (47)
+        on left: 5 6 7 8 9 10
+        on right: 4
+    expr_list <str> (48)
+        on left: 11 12
+        on right: 5 6 7 12 17 34 35 40
+    expr <str> (49)
+        on left: 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33
+        on right: 11 12 15 20 21 22 23 24 25 26 27 28 29 30 31 32 33 38 39 43
+    function_call <str> (50)
+        on left: 34 35
+        on right: 18 41
+    statement_list <str> (51)
+        on left: 36 37
+        on right: 1 37 38 39 43 44
+    statement <str> (52)
+        on left: 38 39 40 41
+        on right: 37
+    if_tail <str> (53)
+        on left: 42 43 44
+        on right: 39 43
+
+
+State 0
+
+    0 $accept: • program $end
+
+    VAR  сдвиг, и переход в состояние 1
+
+    program    переход в состояние 2
+    var_block  переход в состояние 3
+
+
+State 1
+
+    2 var_block: VAR • decl_list END_VAR
+
+    $default  вывод с использованием правила 3 (decl_list)
+
+    decl_list  переход в состояние 4
+
+
+State 2
+
+    0 $accept: program • $end
+
+    $end  сдвиг, и переход в состояние 5
+
+
+State 3
+
+    1 program: var_block • statement_list
+
+    $default  вывод с использованием правила 36 (statement_list)
+
+    statement_list  переход в состояние 6
+
+
+State 4
+
+    2 var_block: VAR decl_list • END_VAR
+    4 decl_list: decl_list • decl
+
+    END_VAR  сдвиг, и переход в состояние 7
+    ID       сдвиг, и переход в состояние 8
+
+    decl  переход в состояние 9
+
+
+State 5
+
+    0 $accept: program $end •
+
+    $default  принять
+
+
+State 6
+
+    1 program: var_block statement_list •
+   37 statement_list: statement_list • statement
+
+    WHILE    сдвиг, и переход в состояние 10
+    IF       сдвиг, и переход в состояние 11
+    ID       сдвиг, и переход в состояние 12
+    FUNC_ID  сдвиг, и переход в состояние 13
+
+    $default  вывод с использованием правила 1 (program)
+
+    function_call  переход в состояние 14
+    statement      переход в состояние 15
+
+
+State 7
+
+    2 var_block: VAR decl_list END_VAR •
+
+    $default  вывод с использованием правила 2 (var_block)
+
+
+State 8
+
+    5 decl: ID • COLON STRING_TYPE ASSIGN expr_list SEMICOLON
+    6     | ID • COLON CHAR_TYPE ASSIGN expr_list SEMICOLON
+    7     | ID • COLON INT_TYPE ASSIGN expr_list SEMICOLON
+    8     | ID • COLON STRING_TYPE SEMICOLON
+    9     | ID • COLON CHAR_TYPE SEMICOLON
+   10     | ID • COLON INT_TYPE SEMICOLON
+
+    COLON  сдвиг, и переход в состояние 16
+
+
+State 9
+
+    4 decl_list: decl_list decl •
+
+    $default  вывод с использованием правила 4 (decl_list)
+
+
+State 10
+
+   38 statement: WHILE • expr DO statement_list END_WHILE SEMICOLON
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 24
+    function_call  переход в состояние 25
+
+
+State 11
+
+   39 statement: IF • expr THEN statement_list if_tail SEMICOLON
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 26
+    function_call  переход в состояние 25
+
+
+State 12
+
+   35 function_call: ID • LPAREN expr_list RPAREN
+   40 statement: ID • ASSIGN expr_list SEMICOLON
+
+    ASSIGN  сдвиг, и переход в состояние 27
+    LPAREN  сдвиг, и переход в состояние 28
+
+
+State 13
+
+   34 function_call: FUNC_ID • LPAREN expr_list RPAREN
+
+    LPAREN  сдвиг, и переход в состояние 29
+
+
+State 14
+
+   41 statement: function_call • SEMICOLON
+
+    SEMICOLON  сдвиг, и переход в состояние 30
+
+
+State 15
+
+   37 statement_list: statement_list statement •
+
+    $default  вывод с использованием правила 37 (statement_list)
+
+
+State 16
+
+    5 decl: ID COLON • STRING_TYPE ASSIGN expr_list SEMICOLON
+    6     | ID COLON • CHAR_TYPE ASSIGN expr_list SEMICOLON
+    7     | ID COLON • INT_TYPE ASSIGN expr_list SEMICOLON
+    8     | ID COLON • STRING_TYPE SEMICOLON
+    9     | ID COLON • CHAR_TYPE SEMICOLON
+   10     | ID COLON • INT_TYPE SEMICOLON
+
+    STRING_TYPE  сдвиг, и переход в состояние 31
+    CHAR_TYPE    сдвиг, и переход в состояние 32
+    INT_TYPE     сдвиг, и переход в состояние 33
+
+
+State 17
+
+   15 expr: LPAREN • expr RPAREN
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 34
+    function_call  переход в состояние 25
+
+
+State 18
+
+   13 expr: INT_LITERAL •
+
+    $default  вывод с использованием правила 13 (expr)
+
+
+State 19
+
+   14 expr: STRING_LITERAL •
+
+    $default  вывод с использованием правила 14 (expr)
+
+
+State 20
+
+   16 expr: ID •
+   17     | ID • LPAREN expr_list RPAREN
+   35 function_call: ID • LPAREN expr_list RPAREN
+
+    LPAREN  сдвиг, и переход в состояние 35
+
+    $default  вывод с использованием правила 16 (expr)
+
+
+State 21
+
+   19 expr: CHAR_LITERAL •
+
+    $default  вывод с использованием правила 19 (expr)
+
+
+State 22
+
+   32 expr: '-' • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 36
+    function_call  переход в состояние 25
+
+
+State 23
+
+   33 expr: '(' • expr ')'
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 37
+    function_call  переход в состояние 25
+
+
+State 24
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+   38 statement: WHILE expr • DO statement_list END_WHILE SEMICOLON
+
+    DO      сдвиг, и переход в состояние 38
+    AND     сдвиг, и переход в состояние 39
+    OR      сдвиг, и переход в состояние 40
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+
+State 25
+
+   18 expr: function_call •
+
+    $default  вывод с использованием правила 18 (expr)
+
+
+State 26
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+   39 statement: IF expr • THEN statement_list if_tail SEMICOLON
+
+    THEN    сдвиг, и переход в состояние 51
+    AND     сдвиг, и переход в состояние 39
+    OR      сдвиг, и переход в состояние 40
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+
+State 27
+
+   40 statement: ID ASSIGN • expr_list SEMICOLON
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr_list      переход в состояние 52
+    expr           переход в состояние 53
+    function_call  переход в состояние 25
+
+
+State 28
+
+   35 function_call: ID LPAREN • expr_list RPAREN
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr_list      переход в состояние 54
+    expr           переход в состояние 53
+    function_call  переход в состояние 25
+
+
+State 29
+
+   34 function_call: FUNC_ID LPAREN • expr_list RPAREN
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr_list      переход в состояние 55
+    expr           переход в состояние 53
+    function_call  переход в состояние 25
+
+
+State 30
+
+   41 statement: function_call SEMICOLON •
+
+    $default  вывод с использованием правила 41 (statement)
+
+
+State 31
+
+    5 decl: ID COLON STRING_TYPE • ASSIGN expr_list SEMICOLON
+    8     | ID COLON STRING_TYPE • SEMICOLON
+
+    ASSIGN     сдвиг, и переход в состояние 56
+    SEMICOLON  сдвиг, и переход в состояние 57
+
+
+State 32
+
+    6 decl: ID COLON CHAR_TYPE • ASSIGN expr_list SEMICOLON
+    9     | ID COLON CHAR_TYPE • SEMICOLON
+
+    ASSIGN     сдвиг, и переход в состояние 58
+    SEMICOLON  сдвиг, и переход в состояние 59
+
+
+State 33
+
+    7 decl: ID COLON INT_TYPE • ASSIGN expr_list SEMICOLON
+   10     | ID COLON INT_TYPE • SEMICOLON
+
+    ASSIGN     сдвиг, и переход в состояние 60
+    SEMICOLON  сдвиг, и переход в состояние 61
+
+
+State 34
+
+   15 expr: LPAREN expr • RPAREN
+   20     | expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    AND     сдвиг, и переход в состояние 39
+    OR      сдвиг, и переход в состояние 40
+    RPAREN  сдвиг, и переход в состояние 62
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+
+State 35
+
+   17 expr: ID LPAREN • expr_list RPAREN
+   35 function_call: ID LPAREN • expr_list RPAREN
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr_list      переход в состояние 63
+    expr           переход в состояние 53
+    function_call  переход в состояние 25
+
+
+State 36
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+   32     | '-' expr •
+
+    $default  вывод с использованием правила 32 (expr)
+
+
+State 37
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+   33     | '(' expr • ')'
+
+    AND     сдвиг, и переход в состояние 39
+    OR      сдвиг, и переход в состояние 40
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+    ')'     сдвиг, и переход в состояние 64
+
+
+State 38
+
+   38 statement: WHILE expr DO • statement_list END_WHILE SEMICOLON
+
+    $default  вывод с использованием правила 36 (statement_list)
+
+    statement_list  переход в состояние 65
+
+
+State 39
+
+   20 expr: expr AND • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 66
+    function_call  переход в состояние 25
+
+
+State 40
+
+   21 expr: expr OR • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 67
+    function_call  переход в состояние 25
+
+
+State 41
+
+   26 expr: expr LE • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 68
+    function_call  переход в состояние 25
+
+
+State 42
+
+   27 expr: expr GE • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 69
+    function_call  переход в состояние 25
+
+
+State 43
+
+   30 expr: expr EQ • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 70
+    function_call  переход в состояние 25
+
+
+State 44
+
+   31 expr: expr NE • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 71
+    function_call  переход в состояние 25
+
+
+State 45
+
+   28 expr: expr LT • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 72
+    function_call  переход в состояние 25
+
+
+State 46
+
+   29 expr: expr GT • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 73
+    function_call  переход в состояние 25
+
+
+State 47
+
+   22 expr: expr PLUS • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 74
+    function_call  переход в состояние 25
+
+
+State 48
+
+   23 expr: expr MINUS • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 75
+    function_call  переход в состояние 25
+
+
+State 49
+
+   24 expr: expr TIMES • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 76
+    function_call  переход в состояние 25
+
+
+State 50
+
+   25 expr: expr DIVIDE • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 77
+    function_call  переход в состояние 25
+
+
+State 51
+
+   39 statement: IF expr THEN • statement_list if_tail SEMICOLON
+
+    $default  вывод с использованием правила 36 (statement_list)
+
+    statement_list  переход в состояние 78
+
+
+State 52
+
+   12 expr_list: expr_list • COMMA expr
+   40 statement: ID ASSIGN expr_list • SEMICOLON
+
+    SEMICOLON  сдвиг, и переход в состояние 79
+    COMMA      сдвиг, и переход в состояние 80
+
+
+State 53
+
+   11 expr_list: expr •
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    AND     сдвиг, и переход в состояние 39
+    OR      сдвиг, и переход в состояние 40
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 11 (expr_list)
+
+
+State 54
+
+   12 expr_list: expr_list • COMMA expr
+   35 function_call: ID LPAREN expr_list • RPAREN
+
+    RPAREN  сдвиг, и переход в состояние 81
+    COMMA   сдвиг, и переход в состояние 80
+
+
+State 55
+
+   12 expr_list: expr_list • COMMA expr
+   34 function_call: FUNC_ID LPAREN expr_list • RPAREN
+
+    RPAREN  сдвиг, и переход в состояние 82
+    COMMA   сдвиг, и переход в состояние 80
+
+
+State 56
+
+    5 decl: ID COLON STRING_TYPE ASSIGN • expr_list SEMICOLON
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr_list      переход в состояние 83
+    expr           переход в состояние 53
+    function_call  переход в состояние 25
+
+
+State 57
+
+    8 decl: ID COLON STRING_TYPE SEMICOLON •
+
+    $default  вывод с использованием правила 8 (decl)
+
+
+State 58
+
+    6 decl: ID COLON CHAR_TYPE ASSIGN • expr_list SEMICOLON
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr_list      переход в состояние 84
+    expr           переход в состояние 53
+    function_call  переход в состояние 25
+
+
+State 59
+
+    9 decl: ID COLON CHAR_TYPE SEMICOLON •
+
+    $default  вывод с использованием правила 9 (decl)
+
+
+State 60
+
+    7 decl: ID COLON INT_TYPE ASSIGN • expr_list SEMICOLON
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr_list      переход в состояние 85
+    expr           переход в состояние 53
+    function_call  переход в состояние 25
+
+
+State 61
+
+   10 decl: ID COLON INT_TYPE SEMICOLON •
+
+    $default  вывод с использованием правила 10 (decl)
+
+
+State 62
+
+   15 expr: LPAREN expr RPAREN •
+
+    $default  вывод с использованием правила 15 (expr)
+
+
+State 63
+
+   12 expr_list: expr_list • COMMA expr
+   17 expr: ID LPAREN expr_list • RPAREN
+   35 function_call: ID LPAREN expr_list • RPAREN
+
+    RPAREN  сдвиг, и переход в состояние 86
+    COMMA   сдвиг, и переход в состояние 80
+
+
+State 64
+
+   33 expr: '(' expr ')' •
+
+    $default  вывод с использованием правила 33 (expr)
+
+
+State 65
+
+   37 statement_list: statement_list • statement
+   38 statement: WHILE expr DO statement_list • END_WHILE SEMICOLON
+
+    WHILE      сдвиг, и переход в состояние 10
+    END_WHILE  сдвиг, и переход в состояние 87
+    IF         сдвиг, и переход в состояние 11
+    ID         сдвиг, и переход в состояние 12
+    FUNC_ID    сдвиг, и переход в состояние 13
+
+    function_call  переход в состояние 14
+    statement      переход в состояние 15
+
+
+State 66
+
+   20 expr: expr • AND expr
+   20     | expr AND expr •
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 20 (expr)
+
+
+State 67
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   21     | expr OR expr •
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    AND     сдвиг, и переход в состояние 39
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 21 (expr)
+
+
+State 68
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   26     | expr LE expr •
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 26 (expr)
+
+
+State 69
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   27     | expr GE expr •
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 27 (expr)
+
+
+State 70
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   30     | expr EQ expr •
+   31     | expr • NE expr
+
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 30 (expr)
+
+
+State 71
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+   31     | expr NE expr •
+
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 31 (expr)
+
+
+State 72
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   28     | expr LT expr •
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 28 (expr)
+
+
+State 73
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   29     | expr GT expr •
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 29 (expr)
+
+
+State 74
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   22     | expr PLUS expr •
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 22 (expr)
+
+
+State 75
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   23     | expr MINUS expr •
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 23 (expr)
+
+
+State 76
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   24     | expr TIMES expr •
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    $default  вывод с использованием правила 24 (expr)
+
+
+State 77
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   25     | expr DIVIDE expr •
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    $default  вывод с использованием правила 25 (expr)
+
+
+State 78
+
+   37 statement_list: statement_list • statement
+   39 statement: IF expr THEN statement_list • if_tail SEMICOLON
+
+    WHILE    сдвиг, и переход в состояние 10
+    IF       сдвиг, и переход в состояние 11
+    ELSIF    сдвиг, и переход в состояние 88
+    ELSE     сдвиг, и переход в состояние 89
+    END_IF   сдвиг, и переход в состояние 90
+    ID       сдвиг, и переход в состояние 12
+    FUNC_ID  сдвиг, и переход в состояние 13
+
+    function_call  переход в состояние 14
+    statement      переход в состояние 15
+    if_tail        переход в состояние 91
+
+
+State 79
+
+   40 statement: ID ASSIGN expr_list SEMICOLON •
+
+    $default  вывод с использованием правила 40 (statement)
+
+
+State 80
+
+   12 expr_list: expr_list COMMA • expr
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 92
+    function_call  переход в состояние 25
+
+
+State 81
+
+   35 function_call: ID LPAREN expr_list RPAREN •
+
+    $default  вывод с использованием правила 35 (function_call)
+
+
+State 82
+
+   34 function_call: FUNC_ID LPAREN expr_list RPAREN •
+
+    $default  вывод с использованием правила 34 (function_call)
+
+
+State 83
+
+    5 decl: ID COLON STRING_TYPE ASSIGN expr_list • SEMICOLON
+   12 expr_list: expr_list • COMMA expr
+
+    SEMICOLON  сдвиг, и переход в состояние 93
+    COMMA      сдвиг, и переход в состояние 80
+
+
+State 84
+
+    6 decl: ID COLON CHAR_TYPE ASSIGN expr_list • SEMICOLON
+   12 expr_list: expr_list • COMMA expr
+
+    SEMICOLON  сдвиг, и переход в состояние 94
+    COMMA      сдвиг, и переход в состояние 80
+
+
+State 85
+
+    7 decl: ID COLON INT_TYPE ASSIGN expr_list • SEMICOLON
+   12 expr_list: expr_list • COMMA expr
+
+    SEMICOLON  сдвиг, и переход в состояние 95
+    COMMA      сдвиг, и переход в состояние 80
+
+
+State 86
+
+   17 expr: ID LPAREN expr_list RPAREN •
+   35 function_call: ID LPAREN expr_list RPAREN •
+
+    DO         вывод с использованием правила 17 (expr)
+    DO         [вывод с использованием правила 35 (function_call)]
+    THEN       вывод с использованием правила 17 (expr)
+    THEN       [вывод с использованием правила 35 (function_call)]
+    AND        вывод с использованием правила 17 (expr)
+    AND        [вывод с использованием правила 35 (function_call)]
+    OR         вывод с использованием правила 17 (expr)
+    OR         [вывод с использованием правила 35 (function_call)]
+    SEMICOLON  вывод с использованием правила 17 (expr)
+    SEMICOLON  [вывод с использованием правила 35 (function_call)]
+    RPAREN     вывод с использованием правила 17 (expr)
+    RPAREN     [вывод с использованием правила 35 (function_call)]
+    COMMA      вывод с использованием правила 17 (expr)
+    COMMA      [вывод с использованием правила 35 (function_call)]
+    LE         вывод с использованием правила 17 (expr)
+    LE         [вывод с использованием правила 35 (function_call)]
+    GE         вывод с использованием правила 17 (expr)
+    GE         [вывод с использованием правила 35 (function_call)]
+    EQ         вывод с использованием правила 17 (expr)
+    EQ         [вывод с использованием правила 35 (function_call)]
+    NE         вывод с использованием правила 17 (expr)
+    NE         [вывод с использованием правила 35 (function_call)]
+    LT         вывод с использованием правила 17 (expr)
+    LT         [вывод с использованием правила 35 (function_call)]
+    GT         вывод с использованием правила 17 (expr)
+    GT         [вывод с использованием правила 35 (function_call)]
+    PLUS       вывод с использованием правила 17 (expr)
+    PLUS       [вывод с использованием правила 35 (function_call)]
+    MINUS      вывод с использованием правила 17 (expr)
+    MINUS      [вывод с использованием правила 35 (function_call)]
+    TIMES      вывод с использованием правила 17 (expr)
+    TIMES      [вывод с использованием правила 35 (function_call)]
+    DIVIDE     вывод с использованием правила 17 (expr)
+    DIVIDE     [вывод с использованием правила 35 (function_call)]
+    ')'        вывод с использованием правила 17 (expr)
+    ')'        [вывод с использованием правила 35 (function_call)]
+    $default   вывод с использованием правила 17 (expr)
+
+    reduce/reduce conflict on tokens DO, THEN, AND, OR, SEMICOLON, RPAREN, COMMA, LE, GE, EQ, NE, LT, GT, PLUS, MINUS, TIMES, DIVIDE, ')':
+       17 expr: ID LPAREN expr_list RPAREN •
+       35 function_call: ID LPAREN expr_list RPAREN •
+      Example: ID LPAREN expr_list RPAREN •
+      First reduce derivation
+        expr
+        ↳ 17: ID LPAREN expr_list RPAREN •
+      Second reduce derivation
+        expr
+        ↳ 18: function_call
+              ↳ 35: ID LPAREN expr_list RPAREN •
+
+
+
+State 87
+
+   38 statement: WHILE expr DO statement_list END_WHILE • SEMICOLON
+
+    SEMICOLON  сдвиг, и переход в состояние 96
+
+
+State 88
+
+   43 if_tail: ELSIF • expr THEN statement_list if_tail
+
+    LPAREN          сдвиг, и переход в состояние 17
+    INT_LITERAL     сдвиг, и переход в состояние 18
+    STRING_LITERAL  сдвиг, и переход в состояние 19
+    ID              сдвиг, и переход в состояние 20
+    FUNC_ID         сдвиг, и переход в состояние 13
+    CHAR_LITERAL    сдвиг, и переход в состояние 21
+    '-'             сдвиг, и переход в состояние 22
+    '('             сдвиг, и переход в состояние 23
+
+    expr           переход в состояние 97
+    function_call  переход в состояние 25
+
+
+State 89
+
+   44 if_tail: ELSE • statement_list END_IF
+
+    $default  вывод с использованием правила 36 (statement_list)
+
+    statement_list  переход в состояние 98
+
+
+State 90
+
+   42 if_tail: END_IF •
+
+    $default  вывод с использованием правила 42 (if_tail)
+
+
+State 91
+
+   39 statement: IF expr THEN statement_list if_tail • SEMICOLON
+
+    SEMICOLON  сдвиг, и переход в состояние 99
+
+
+State 92
+
+   12 expr_list: expr_list COMMA expr •
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+
+    AND     сдвиг, и переход в состояние 39
+    OR      сдвиг, и переход в состояние 40
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+    $default  вывод с использованием правила 12 (expr_list)
+
+
+State 93
+
+    5 decl: ID COLON STRING_TYPE ASSIGN expr_list SEMICOLON •
+
+    $default  вывод с использованием правила 5 (decl)
+
+
+State 94
+
+    6 decl: ID COLON CHAR_TYPE ASSIGN expr_list SEMICOLON •
+
+    $default  вывод с использованием правила 6 (decl)
+
+
+State 95
+
+    7 decl: ID COLON INT_TYPE ASSIGN expr_list SEMICOLON •
+
+    $default  вывод с использованием правила 7 (decl)
+
+
+State 96
+
+   38 statement: WHILE expr DO statement_list END_WHILE SEMICOLON •
+
+    $default  вывод с использованием правила 38 (statement)
+
+
+State 97
+
+   20 expr: expr • AND expr
+   21     | expr • OR expr
+   22     | expr • PLUS expr
+   23     | expr • MINUS expr
+   24     | expr • TIMES expr
+   25     | expr • DIVIDE expr
+   26     | expr • LE expr
+   27     | expr • GE expr
+   28     | expr • LT expr
+   29     | expr • GT expr
+   30     | expr • EQ expr
+   31     | expr • NE expr
+   43 if_tail: ELSIF expr • THEN statement_list if_tail
+
+    THEN    сдвиг, и переход в состояние 100
+    AND     сдвиг, и переход в состояние 39
+    OR      сдвиг, и переход в состояние 40
+    LE      сдвиг, и переход в состояние 41
+    GE      сдвиг, и переход в состояние 42
+    EQ      сдвиг, и переход в состояние 43
+    NE      сдвиг, и переход в состояние 44
+    LT      сдвиг, и переход в состояние 45
+    GT      сдвиг, и переход в состояние 46
+    PLUS    сдвиг, и переход в состояние 47
+    MINUS   сдвиг, и переход в состояние 48
+    TIMES   сдвиг, и переход в состояние 49
+    DIVIDE  сдвиг, и переход в состояние 50
+
+
+State 98
+
+   37 statement_list: statement_list • statement
+   44 if_tail: ELSE statement_list • END_IF
+
+    WHILE    сдвиг, и переход в состояние 10
+    IF       сдвиг, и переход в состояние 11
+    END_IF   сдвиг, и переход в состояние 101
+    ID       сдвиг, и переход в состояние 12
+    FUNC_ID  сдвиг, и переход в состояние 13
+
+    function_call  переход в состояние 14
+    statement      переход в состояние 15
+
+
+State 99
+
+   39 statement: IF expr THEN statement_list if_tail SEMICOLON •
+
+    $default  вывод с использованием правила 39 (statement)
+
+
+State 100
+
+   43 if_tail: ELSIF expr THEN • statement_list if_tail
+
+    $default  вывод с использованием правила 36 (statement_list)
+
+    statement_list  переход в состояние 102
+
+
+State 101
+
+   44 if_tail: ELSE statement_list END_IF •
+
+    $default  вывод с использованием правила 44 (if_tail)
+
+
+State 102
+
+   37 statement_list: statement_list • statement
+   43 if_tail: ELSIF expr THEN statement_list • if_tail
+
+    WHILE    сдвиг, и переход в состояние 10
+    IF       сдвиг, и переход в состояние 11
+    ELSIF    сдвиг, и переход в состояние 88
+    ELSE     сдвиг, и переход в состояние 89
+    END_IF   сдвиг, и переход в состояние 90
+    ID       сдвиг, и переход в состояние 12
+    FUNC_ID  сдвиг, и переход в состояние 13
+
+    function_call  переход в состояние 14
+    statement      переход в состояние 15
+    if_tail        переход в состояние 103
+
+
+State 103
+
+   43 if_tail: ELSIF expr THEN statement_list if_tail •
+
+    $default  вывод с использованием правила 43 (if_tail)
